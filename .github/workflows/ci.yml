@@ -1,8 +1,19 @@
-name: My First CI
-on: push
+name: NeoBank CI
+
+on:
+  push:
+    branches: [main]
+
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Say Hello
-        run: echo "Привет! Я робот GitHub Actions и я работаю за тебя!"  
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t auth-service ./auth-service
+
+      - name: Check image
+        run: docker images auth-service
