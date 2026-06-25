@@ -1,0 +1,8 @@
+name: My First CI
+on: push
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Привет! Я робот GitHub Actions и я работаю за тебя!"  
