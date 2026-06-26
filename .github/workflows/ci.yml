@@ -5,9 +5,18 @@ on:
     branches: [main]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: cd auth-service && python test_app.py
+
   build:
     runs-on: ubuntu-latest
-
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
