@@ -24,8 +24,17 @@ jobs:
       - name: Build Docker image
         run: docker build -t auth-service ./auth-service
 
-      - name: Check image
-        run: docker images auth-service
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Use secret
-        run: echo "Секрет = ${{ secrets.MY_SECRET_MESSAGE }}"
+      - name: Deploy with Docker
+        run: |
+          cd auth-service
+          docker build -t auth-service .
+          docker stop auth-service || true
+          docker rm auth-service || true
+          docker run -d --name auth-service -p 5000:5000 auth-service
